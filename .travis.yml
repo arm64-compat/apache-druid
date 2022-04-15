@@ -34,12 +34,29 @@ before_script:
 - export DRUID_RELEASE=$(curl -s https://api.github.com/repos/apache/druid/releases/latest | jq .tag_name -r)
 - git -C druid checkout $DRUID_RELEASE 
 - export DRUID_VERSION=$(${MVN} -q org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -DforceStdout=true)
-- export DRUID_IMAGE=${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${DRUID_VERSION}
+- export IMAGE_NAME=${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_REPOSITORY}
+- export IMAGE_TAG=${DRUID_VERSION}-${TRAVIS_CPU_ARCH}
+- export DRUID_IMAGE=${IMAGE_NAME}:${IMAGE_TAG}
 
 script:
 - echo $DRUID_VERSION
 - "${MVN} install -Pdist,bundle-contrib-exts ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS}"
 - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DRUID_IMAGE} .
-- echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+- &docker-login echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
   ${DOCKER_REGISTRY}
-- docker push ${DRUID_IMAGE}
+
+deploy:
+  provider: script
+  script: docker push ${DRUID_IMAGE}
+
+jobs:
+  include:
+  - stage: manifest
+    install: skip
+    script: skip
+    after_deploy:
+    - *docker-login
+    - docker manifest create ${IMAGE_NAME}:${DRUID_VERSION} ${IMAGE_NAME}:${DRUID_VERSION}-amd64 ${IMAGE_NAME}:${DRUID_VERSION}-arm64;
+      docker manifest annotate ${IMAGE_NAME}:${DRUID_VERSION}-amd64 --os linux --arch amd64;
+      docker manifest annotate ${IMAGE_NAME}:${DRUID_VERSION}-arm64 --os linux --arch arm64 --variant v8;
+    - docker manifesh push ${IMAGE_NAME}:${DRUID_VERSION}
