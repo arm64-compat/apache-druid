@@ -17,7 +17,7 @@
 # under the License.
 #
 
-ARG JDK_VERSION=aarch64-debian-jre8u292-b10
+ARG JDK_VERSION=debian-jre
 FROM busybox as builder
 
 ARG DRUID_VERSION=0.22.1
