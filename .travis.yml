@@ -1,17 +1,22 @@
 language: java
+
 arch:
 - arm64
 - amd64
+
 jdk:
 - openjdk11
+
 cache:
   directories:
   - "$HOME/.m2"
+
 addons:
   apt:
     packages:
     - maven
     - python3
+
 env:
   global:
   - MVN="mvn -B -f druid/pom.xml"
@@ -21,8 +26,10 @@ env:
   - DOCKER_REPOSITORY=apache/druid
   - secure: PmmRnWVJnR1wZ+9LOoyIhsTfpXBYpGLKSp6ZXsLFFdvWweEBC1cSIWcGvaXgOVPAWDsz3mugp8R2LhQz45vEkQc2KIuQZv9o3OPMcYQuAUUql8fYaQM1da23H2VTrdgKVONPDSz9XweH4KG0nYlRj/MgHAAPHJkmAR6RzWtTV0WhLZcDXujk67ENaPcFSMTIrDFkoWo2Hk8ccAgtYFz4jHlHdSazFZ2ArW/vwr9BAelBpTSPIrU/NGzQ1jcfji582mjLw0mTvDS8y6Nt+Be+3Dos5Fdy9tVtJb/3JC+2DabEVtVqEKZa0EJoYrKkDk7Co3JaCdeR9Qi9ly8ck8kMlqk0WD0vzrQCcZPcgZnX8/jTJhP4cS11Z8jpyQR2TcgCERZB6naix17GPfh9AbGxu01r2jlXhpjlEtBvUKw9w05h314fwyHEbNp8lY9sRLtaVBpyIC3PAYe5rVRbTJwMZwO9td46C0bbyrKjWihBxleg+yiwJZGMUXWUhWPbQ4r/basqddH+yhCK44uX1nw30NIrdmOk5S+0HAl9SvZanRdBjUngezxJDbFomUWN3LyJfZOURMerckFDFI2KlweDPS7NRmZEYb2Z6VTcGeKMNw1nxyMzNWuCU36i/zBsMJVmYg/UT2t6qsQit/70YGeuiE2Hn3NxaFq/mZOWtXeRdVw=
   - secure: Ls+IOOCgBJTaqWdx1iLNwxfp5ZiUBmpiqZVJHm8j+hSoujVXxHCgFSP4Z+JJNy/Le65or14BexNyjk+A7fg4emlutONtsKrwhnA5kei3WSKzdHZE17hK5u6jwcgE6HOj2Yccdo3+czWU2dxgVb9O/UiqdpGokRS1MVz2lAwiIfYxbG1xdLYvIRvQa59W6pC8F+GTJxAkSF5p2CknziLifN0GVKqK0OCR9OM3BlvXe/FPDIMRsgmFF+4o6kwCfn8xqaq0uKBWf5bIDC81WX4+8fOXY9Z/f7CqiPPwKEwcdM9TqQOtjdoHUGueZEYEDRm99NLS2A8TWTBXJEHN8wdoQpy/kIwCAGZShU74EWaRE84HdfWJkJJIug6h6yFPy/EPQN2Wyo65h1sFNzy/8ykRnWCzYeqryhuCLD3SzZ4g2yawS1EPFY959lBwjiTUqsb3Mb42FEdtawXkbcGXsjMkaPzHcRZJmuWHo/iRHLXgC/XGUhnZDOgd3IFNO8HFgPWBgRvGAAr61WdsccUf2EzQ1JuPhRglvm+u5r2xWaJ6e4+mpXiJsA603Qh1RKR6GZwhaBXZ5jiQ2STjMYauE+CsIDg+OC0Zj4T1vjUnkBLvaTfxZLj5x5yMzRv7ixWvM/fcaH516rGWDLms20Ja76yQZM6pYe0bTG3Nqtmi/E4ODJI=
+
 services:
 - docker
+
 jobs:
   include:
   - name: "build druid image"
