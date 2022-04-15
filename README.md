@@ -1,3 +1,3 @@
 # druid-arm64
 
-https://app.travis-ci.com/anuragagarwal561994/druid-arm64.svg?branch=main
+[![Build Status](https://app.travis-ci.com/arm64-compat/apache-druid.svg?branch=main)](https://app.travis-ci.com/arm64-compat/apache-druid)
