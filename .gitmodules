@@ -1,0 +1,3 @@
+[submodule "druid"]
+	path = druid
+	url = https://github.com/apache/druid.git
