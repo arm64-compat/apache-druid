@@ -47,6 +47,8 @@ script:
 
 deploy:
   provider: script
+  on:
+    all_branches: true
   script: docker push ${DRUID_IMAGE}
 
 jobs:
