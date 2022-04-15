@@ -1,0 +1,30 @@
+language: java
+
+arch:
+  - arm64
+
+jdk:
+  - openjdk11
+
+cache:
+  directories:
+    - $HOME/.m2
+
+addons:
+  apt:
+    packages:
+      - maven
+      - python3
+
+env:
+  global:
+    - MVN="mvn -B"
+    - > # Various options to make execution of maven goals faster (e.g., mvn install)
+      MAVEN_SKIP="-Pskip-static-checks -Ddruid.console.skip=true -Dmaven.javadoc.skip=true"
+    - MAVEN_SKIP_TESTS="-Pskip-tests"
+
+jobs:
+  include:
+    - name: "build druid"
+      before_script: cd druid
+      script: ${MVN} install -Pdist,bundle-contrib-exts ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS}
