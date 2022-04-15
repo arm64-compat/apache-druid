@@ -25,7 +25,7 @@ services:
 - docker
 jobs:
   include:
-  - name: build druid image
+  - name: "build druid image"
     before_script:
     - export DRUID_RELEASE=$(curl -s https://api.github.com/repos/apache/druid/releases/latest | jq .tag_name -r)
     - git -C druid checkout $DRUID_RELEASE 
