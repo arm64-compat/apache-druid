@@ -3,3 +3,4 @@
 
 # Allow files and directories
 !druid/distribution/target/apache-druid-*-bin.tar.gz
+!druid/distribution/docker/druid.sh

@@ -22,9 +22,10 @@ FROM busybox as builder
 
 ARG DRUID_VERSION=0.22.1
 
-COPY druid/distribution/target/apache-druid-${DRUID_VERSION}-bin.tar.gz /src
+COPY druid/distribution/target/apache-druid-${DRUID_VERSION}-bin.tar.gz /src/
 WORKDIR /src
-RUN tar -zxf ./apache-druid-${DRUID_VERSION}-bin.tar.gz -C /opt \
+RUN mkdir -p /opt \
+ && tar -zxf ./apache-druid-${DRUID_VERSION}-bin.tar.gz -C /opt \
  && mv /opt/apache-druid-${DRUID_VERSION} /opt/druid
 
 FROM adoptopenjdk/openjdk8:$JDK_VERSION
@@ -34,7 +35,7 @@ RUN addgroup --system --gid 1000 druid \
  && adduser --system --uid 1000 --disabled-password --no-create-home --home /opt/druid --shell /bin/sh --gecos '' --ingroup druid druid
 
 COPY --chown=druid:druid --from=builder /opt /opt
-COPY distribution/docker/druid.sh /druid.sh
+COPY druid/distribution/docker/druid.sh /druid.sh
 
 # create necessary directories which could be mounted as volume
 #   /opt/druid/var is used to keep individual files(e.g. log) of each Druid service
