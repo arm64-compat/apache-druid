@@ -35,3 +35,4 @@ jobs:
     - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}:${DRUID_VERSION} .
     - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
       ${DOCKER_REGISTRY}
+    - docker push ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}:${DRUID_VERSION}
