@@ -22,6 +22,8 @@ env:
     - > # Various options to make execution of maven goals faster (e.g., mvn install)
       MAVEN_SKIP="-Pskip-static-checks -Ddruid.console.skip=true -Dmaven.javadoc.skip=true"
     - MAVEN_SKIP_TESTS="-Pskip-tests"
+    - DOCKER_REGISTRY=ghcr.io
+    - DOCKER_REPOSITORY=apache/druid
 
 services:
   - docker
@@ -34,4 +36,5 @@ jobs:
       script:
       - echo $DRUID_VERSION
       - ${MVN} install -Pdist,bundle-contrib-exts ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS}
-      - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t apache/druid:${DRUID_VERSION} .
+      - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}:${DRUID_VERSION} .
+      - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_REGISTRY}
