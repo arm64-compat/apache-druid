@@ -34,7 +34,7 @@ jobs:
     script:
     - echo $DRUID_VERSION
     - "${MVN} install -Pdist,bundle-contrib-exts ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS}"
-    - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DRUID_IMAGE}
+    - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DRUID_IMAGE} .
     - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
       ${DOCKER_REGISTRY}
     - docker push ${DRUID_IMAGE}
