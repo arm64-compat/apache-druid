@@ -30,10 +30,6 @@ env:
 services:
 - docker
 
-stages:
-- build
-- manifest
-
 before_script:
 - export DRUID_RELEASE=$(curl -s https://api.github.com/repos/apache/druid/releases/latest | jq .tag_name -r)
 - git -C druid checkout $DRUID_RELEASE 
