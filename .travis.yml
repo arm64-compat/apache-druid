@@ -30,10 +30,11 @@ jobs:
     - export DRUID_RELEASE=$(curl -s https://api.github.com/repos/apache/druid/releases/latest | jq .tag_name -r)
     - git -C druid checkout $DRUID_RELEASE 
     - export DRUID_VERSION=$(${MVN} -q org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -DforceStdout=true)
+    - export DRUID_IMAGE=${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_REPOSITORY}:${DRUID_VERSION}
     script:
     - echo $DRUID_VERSION
     - "${MVN} install -Pdist,bundle-contrib-exts ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS}"
-    - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}:${DRUID_VERSION} .
+    - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DRUID_IMAGE}
     - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
       ${DOCKER_REGISTRY}
-    - docker push ${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}:${DRUID_VERSION}
+    - docker push ${DRUID_IMAGE}
