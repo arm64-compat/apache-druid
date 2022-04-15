@@ -27,8 +27,9 @@ jobs:
   include:
   - name: build druid image
     before_script:
-    - export DRUID_VERSION=$(${MVN} -q org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate
-      -Dexpression=project.version -DforceStdout=true)
+    - export DRUID_RELEASE=$(curl -s https://api.github.com/repos/apache/druid/releases/latest | jq .tag_name -r)
+    - git -C druid checkout $DRUID_RELEASE 
+    - export DRUID_VERSION=$(${MVN} -q org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -DforceStdout=true)
     script:
     - echo $DRUID_VERSION
     - "${MVN} install -Pdist,bundle-contrib-exts ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS}"
