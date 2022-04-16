@@ -42,15 +42,12 @@ jobs:
     stage: build
     arch: arm64
     jdk: openjdk11
-    env: &build_env
-      MAVEN_SKIP="-Pskip-static-checks -Ddruid.console.skip=true -Dmaven.javadoc.skip=true"
-      MAVEN_SKIP_TESTS="-Pskip-tests"
     before_script: &build_before_script
     - *common_before_script
     - export IMAGE_TAG=${DRUID_VERSION}-${TRAVIS_CPU_ARCH}
     - export DRUID_IMAGE=${IMAGE_NAME}:${IMAGE_TAG}
     script: &build_image
-    - "${MVN} install -Pdist,bundle-contrib-exts ${MAVEN_SKIP} ${MAVEN_SKIP_TESTS}"
+    - "${MVN} install -Pdist,bundle-contrib-exts -Pskip-static-checks,skip-tests -Dmaven.javadoc.skip=true"
     - docker build --build-arg DRUID_VERSION=${DRUID_VERSION} -t ${DRUID_IMAGE} .
     before_deploy: &docker_login echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin ${DOCKER_REGISTRY}
     deploy: &push_image
@@ -62,7 +59,6 @@ jobs:
     stage: build
     arch: amd64
     jdk: openjdk11
-    env: *build_env
     before_script: *build_before_script
     script: *build_image
     before_deploy: *docker_login
