@@ -24,7 +24,7 @@ jobs:
         key: m2-{{ checksum "<< parameters.module >>/pom.xml" }}
     - run:
         name: Install pyyaml for distribution module
-        command: pip install pyyaml
+        command: pip3 install pyyaml
     - run:
         name: Build
         command: ./build-images.sh << parameters.module >>
