@@ -23,6 +23,9 @@ jobs:
     - restore_cache:
         key: m2-{{ checksum "<< parameters.module >>/pom.xml" }}
     - run:
+        name: Install pyyaml for distribution module
+        command: pip install pyyaml
+    - run:
         name: Build
         command: ./build-images.sh << parameters.module >>
     - save_cache:
