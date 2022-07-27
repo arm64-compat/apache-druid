@@ -13,7 +13,7 @@ jobs:
       DOCKER_REGISTRY: ghcr.io
       DOCKER_REPOSITORY: arm64-compat
     machine:
-      image: ubuntu-2004:202101-01
+      image: ubuntu-2004:current
     resource_class: << parameters.build_platform >>
     steps:
     - checkout
