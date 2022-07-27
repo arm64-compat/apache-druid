@@ -1,0 +1,78 @@
+version: 2.1
+
+jobs:
+  build-image:
+    parameters:
+      module: &module-parameter
+        description: module to build
+        type: string
+      build_platform:
+        description: build_platform - arm / amd
+        type: string
+    environment: &common-env
+      DOCKER_REGISTRY: ghcr.io
+      DOCKER_REPOSITORY: arm64-compat
+    machine:
+      image: ubuntu-2004:current
+    resource_class: << parameters.build_platform >>
+    steps:
+    - checkout
+    - run: &checkout-submodule
+        name: Checkout Submodule
+        command: git submodule update --init -- << parameters.module >>
+    - restore_cache:
+        key: m2-{{ checksum "<< parameters.module >>/pom.xml" }}
+    - run:
+        name: Install pyyaml for distribution module
+        command: pip3 install pyyaml
+    - run:
+        name: Build
+        command: ./build-images.sh << parameters.module >>
+    - save_cache:
+        key: m2-{{ checksum "<< parameters.module >>/pom.xml" }}
+        paths:
+        - ~/.m2
+    - run: &docker-login
+        name: Docker Login
+        command: echo $GITHUB_TOKEN | docker login -u $GITHUB_USERNAME --password-stdin $DOCKER_REGISTRY
+    - run:
+        name: Deploy
+        command: ./push-images.sh << parameters.module >>
+
+  publish-manifest:
+    parameters:
+      module: *module-parameter
+    environment: *common-env
+    docker:
+    - image: cimg/openjdk:11.0.13
+    steps:
+    - checkout
+    - setup_remote_docker:
+        version: 20.10.11
+    - run: *checkout-submodule
+    - run: *docker-login
+    - run:
+        name: Publish Manifest
+        command: ./create-manifest.sh << parameters.module >>
+
+workflows:
+  workflow:
+    jobs:
+    - build-image:
+        name: build-<< matrix.module >>-<< matrix.build_platform >>
+        matrix:
+          parameters:
+            module:
+            - druid
+            build_platform: &cpu-platforms
+            - arm.medium
+            - medium
+    - publish-manifest:
+        name: publish-manifest-<< matrix.module >>
+        matrix:
+          parameters:
+            module:
+            - druid
+        requires:
+        - build-<< matrix.module >>-arm.medium
+        - build-<< matrix.module >>-medium
