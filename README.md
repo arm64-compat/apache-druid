@@ -21,11 +21,7 @@ You can refer to [GHCR Package Repository](https://github.com/orgs/arm64-compat/
 
 ### Base Image
 
-`adoptopenjdk/openjdk8` base image is used with `debian-jre` flavour.
-
-### Automated Builds
-
-Travis-CI builds are scheduled to run on weekly basis. It keeps track of [Druid Releases](https://github.com/apache/druid/releases) and it will create a new image for a new version released without making much changes to the source code in most of the cases
+`adoptopenjdk/openjdk8` base image is used with `<arch>-debian-jre<version>` flavour.
 
 ## Druid Operator Usage
 
@@ -34,13 +30,13 @@ In your CRD for setting up druid, change your image
 from
 
 ```yaml
-image: apache/druid:0.22.1
+image: apache/druid:0.23.0
 ```
 
 to
 
 ```yaml
-image: ghcr.io/arm64-compat/apache/druid:0.22.1
+image: ghcr.io/arm64-compat/apache/druid:0.23.0
 ```
 
 ## License
