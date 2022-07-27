@@ -1,6 +1,6 @@
 # Druid ARM64 Compatible Image
 
-[![Build Status](https://app.travis-ci.com/arm64-compat/apache-druid.svg?branch=main)](https://app.travis-ci.com/arm64-compat/apache-druid)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/arm64-compat/apache-druid/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/arm64-compat/apache-druid/tree/main)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This repository provides `linux/amd64` & `linux/arm64` compatible images for [Apach Druid](https://github.com/apache/druid) project. These images can be used with [Durid Operator HELM Chart](https://github.com/druid-io/druid-operator).
