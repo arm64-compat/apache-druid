@@ -30,13 +30,13 @@ In your CRD for setting up druid, change your image
 from
 
 ```yaml
-image: apache/druid:0.23.0
+image: apache/druid:25.0.0
 ```
 
 to
 
 ```yaml
-image: ghcr.io/arm64-compat/apache/druid:0.23.0
+image: ghcr.io/arm64-compat/apache/druid:25.0.0
 ```
 
 ## License
