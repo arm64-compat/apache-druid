@@ -21,5 +21,5 @@ esac
 
 docker build \
 	--build-arg DRUID_VERSION=${DRUID_VERSION} \
-	--build-arg JDK_VERSION=${BUILD_ARCH}-debian-jre8u342-b07 \
+	--build-arg JDK_VERSION=${BUILD_ARCH}-debian-jre-11.0.18_10 \
 	-t ${DOCKER_IMAGE} .
