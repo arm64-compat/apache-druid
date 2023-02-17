@@ -28,7 +28,7 @@ RUN mkdir -p /opt \
  && tar -zxf ./apache-druid-${DRUID_VERSION}-bin.tar.gz -C /opt \
  && mv /opt/apache-druid-${DRUID_VERSION} /opt/druid
 
-FROM adoptopenjdk/openjdk8:$JDK_VERSION
+FROM adoptopenjdk/openjdk11:$JDK_VERSION
 LABEL maintainer="Anurag Agarwal <anurag.agarwal561994@gmail.com>"
 
 RUN addgroup --system --gid 1000 druid \
@@ -36,6 +36,7 @@ RUN addgroup --system --gid 1000 druid \
 
 COPY --chown=druid:druid --from=builder /opt /opt
 COPY druid/distribution/docker/druid.sh /druid.sh
+COPY druid/distribution/docker/peon.sh /peon.sh
 
 # create necessary directories which could be mounted as volume
 #   /opt/druid/var is used to keep individual files(e.g. log) of each Druid service
