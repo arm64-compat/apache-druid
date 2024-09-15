@@ -43,17 +43,17 @@ image: ghcr.io/arm64-compat/apache/druid:25.0.0
 
 Process to upgrade submodule:
 
-    1.- git checkout -b 10-upgrade-to-3000
-    2.- git submodule init
-    3.- git submodule update --remote druid
-    4.- git submodule foreach --recursive 'git fetch --tags'
-    5.- cd druid
-    6.- git checkout <tag> (e.g. git checkout druid-30.0.0)
-    7.- cd ..
-    8.- git add druid
-    9.- git submodule status 
-    10.- git commit -m "Upgrade to 30.0.0" 
-    11.- git push -u origin 10-upgrade-to-3000
+    * git checkout -b 10-upgrade-to-3000
+    * git submodule init
+    * git submodule update --remote druid
+    * git submodule foreach --recursive 'git fetch --tags'
+    * cd druid
+    * git checkout <tag> (e.g. git checkout druid-30.0.0)
+    * cd ..
+    * git add druid
+    * git submodule status 
+    * git commit -m "Upgrade to 30.0.0" 
+    * git push -u origin 10-upgrade-to-3000
 
 ## License
 
